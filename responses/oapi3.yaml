@@ -1,0 +1,263 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: HHforURFU vacancies
+  description: |
+    %README.md%
+
+tags:
+  - name: get
+    x-displayName: Получение
+  - name: add
+    x-displayName: Добавление
+  - name: remove
+    x-displayName: Удаление
+  - name: update
+    x-displayName: Обновление
+
+paths:
+  "/api/responses/add":
+    post:
+      tags:
+        - add
+      summary: Добавление нового юзера в БД
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Response'
+      responses:
+        "204":
+          description: Данные добавлены в БД
+        "400":
+          description: Ошибка валидации входных данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Внутренняя ошибка сервиса
+    
+  "/api/responses/get":
+    get:
+      tags:
+        - get
+      summary: Получение всех ответов из БД
+      responses:
+        "200":
+          description: Данные вакансий
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "400":
+          description: Ошибка валидации входных данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Внутренняя ошибка сервиса
+
+  "/api/responses/{vacancy_id}-and-{chat_id_employer}/get":
+    get:
+      tags:
+        - get
+      summary: Получение данных вакансии по vacancy_id
+      parameters:
+        - name: vacancy_id
+          in: path
+          description: Идентификатор вакансии
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: chat_id_employer
+          in: path
+          description: Идентификатор работодателя
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Данные пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        "400":
+          description: Ошибка валидации входных данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Внутренняя ошибка сервиса
+
+  "/api/responses/chat_id_employer/{chat_id_employer}/get":
+    get:
+      tags:
+        - get
+      summary: Получение данных вакансии по vacancy_id
+      parameters:
+        - name: chat_id_employer
+          in: path
+          description: Идентификатор работодателя
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Данные пользователя
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Response'
+        "400":
+          description: Ошибка валидации входных данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Внутренняя ошибка сервиса
+  
+  "/api/responses/chat_id/{chat_id}/get":
+    get:
+      tags:
+        - get
+      summary: Получение данных вакансии по vacancy_id
+      parameters:
+        - name: chat_id
+          in: path
+          description: Идентификатор работодателя
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Данные пользователя
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Response'
+        "400":
+          description: Ошибка валидации входных данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Внутренняя ошибка сервиса
+
+  "/api/responses/{vacancy_id}/update":
+    put:
+      tags:
+        - update
+      summary: Обновление информации о вакансии в БД
+      parameters:
+        - name: vacancy_id
+          in: path
+          description: Идентификатор вакансии
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Response'
+      responses:
+        "204":
+          description: Данные добавлены в БД
+        "400":
+          description: Ошибка валидации входных данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Внутренняя ошибка сервиса
+
+  "/api/responses/{vacancy_id}/remove":
+    delete:
+      tags:
+        - remove
+      summary: Удаление пользователя из БД
+      parameters:
+        - name: vacancy_id
+          in: path
+          description: Идентификатор вакансии
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: Данные удалены из БД
+        "400":
+          description: Ошибка валидации входных данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Внутренняя ошибка сервиса
+
+  "/api/responses/vacancy_id/{vacancy_id}/get":
+      get:
+        tags:
+          - get
+        summary: Получение данных вакансии по vacancy_id
+        parameters:
+          - name: vacancy_id
+            in: path
+            description: Идентификатор вакансии
+            required: true
+            schema:
+              type: integer
+              format: int64
+        responses:
+          "200":
+            description: Данные пользователя
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Response'
+          "400":
+            description: Ошибка валидации входных данных
+          "401":
+            description: Ошибка авторизации
+          "500":
+            description: Внутренняя ошибка сервиса
+
+components:
+  schemas:
+    Response:
+      type: object
+      description: Данные вакансии
+      required:
+        - vacancy_id
+        - chat_id
+        - status
+        - chat_id_employer
+      properties:
+        vacancy_id:
+          type: integer
+          format: int64
+          description: Уникальный номер вакансии
+          x-oapi-codegen-extra-tags:
+            db: vacancy_id
+        chat_id:
+          type: integer
+          format: int64
+          description: Уникальный номер чата
+          x-oapi-codegen-extra-tags:
+            db: chat_id
+        status:
+          type: string
+          description: Статус ответа
+          x-oapi-codegen-extra-tags:
+            db: status
+        chat_id_employer:
+          type: integer
+          format: int64
+          description: Уникальный номер чата с работодателем
+          x-oapi-codegen-extra-tags:
+            db: chat_id_employer

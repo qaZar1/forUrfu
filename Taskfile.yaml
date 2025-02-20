@@ -1,0 +1,22 @@
+version: 3
+
+includes:
+  seekers:
+    taskfile: seekers/Taskfile.seekers.yaml
+  employers:
+    taskfile: employers/Taskfile.employers.yaml
+  filters:
+    taskfile: filters/Taskfile.filters.yaml
+  responses:
+    taskfile: responses/Taskfile.responses.yaml
+  vacancies:
+    taskfile: vacancies/Taskfile.vacancies.yaml
+  websocket:
+    taskfile: websocket/Taskfile.message.yaml
+
+tasks:
+  default:
+    desc: Список задач
+    cmds:
+      - task --list
+ 

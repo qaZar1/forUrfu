@@ -1,0 +1,131 @@
+basePath: /api
+definitions:
+  seeker:
+    properties:
+      f_name:
+        type: string
+      id:
+        type: integer
+      password_hash:
+        type: string
+      resume:
+        type: string
+      username:
+        type: string
+    type: object
+  token_response:
+    properties:
+      access_token:
+        example: eyJhbGciOiJIUzI1N74VlQTsu4TStQiloLfN0ENf6d64Ar0uSbrvtbUqFMGQ
+        type: string
+      expires_in:
+        example: 18000
+        type: integer
+      token_type:
+        example: Bearer
+        type: string
+    type: object
+host: localhost:8005
+info:
+  contact: {}
+  description: '%README_FILE%'
+  title: Authentication API
+  version: "3.0"
+paths:
+  /api/checkSeeker/{username}:
+    get:
+      consumes:
+      - application/json
+      description: При обращении, регистрируется соискатель
+      parameters:
+      - description: Username пользователя
+        in: path
+        name: username
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            $ref: '#/definitions/seeker'
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Проверка, существует ли пользователь
+      tags:
+      - APIs
+  /api/login:
+    get:
+      description: Генерирует JWT токен
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            $ref: '#/definitions/token_response'
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение токена
+      tags:
+      - Authentication
+  /api/registerSeeker:
+    post:
+      consumes:
+      - application/json
+      description: При обращении, регистрируется соискатель
+      requestBody:
+        $ref: '#/definitions/seeker'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Запрос выполнен успешно
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Регистрация соискателя
+      tags:
+      - APIs
+  /api/update/{username}:
+    put:
+      consumes:
+      - application/json
+      description: При обращении, обновляются данные
+      parameters:
+      - description: Username пользователя
+        in: path
+        name: username
+        required: true
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/definitions/seeker'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Обновление данных о пользователе
+      tags:
+      - APIs
+swagger: "2.0"

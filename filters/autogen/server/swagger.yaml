@@ -1,0 +1,65 @@
+basePath: /api
+definitions:
+  tag:
+    properties:
+      tag:
+        type: string
+      vacancy_id:
+        type: integer
+    type: object
+host: localhost:8005
+info:
+  contact: {}
+  description: '%README_FILE%'
+  title: Authentication API
+  version: "3.0"
+paths:
+  /api/filters/addFilter:
+    post:
+      description: При обращении, создается тег
+      requestBody:
+        $ref: '#/definitions/tag'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Запрос выполнен успешно
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение ответов по id
+      tags:
+      - APIs
+  /api/filters/getTagsByVacancyID/{vacancy_id}:
+    get:
+      description: При обращении, возвращаются все теги, которые есть у вакансии
+      parameters:
+      - description: ID вакансии
+        in: path
+        name: vacancy_id
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            items:
+              $ref: '#/definitions/tag'
+            schema:
+          type: array
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение тегов по vacancy_id
+      tags:
+      - APIs
+swagger: "2.0"

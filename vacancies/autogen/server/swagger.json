@@ -1,0 +1,250 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "%README_FILE%",
+        "title": "Authentication API",
+        "contact": {},
+        "version": "2.0"
+    },
+    "host": "localhost:8002",
+    "basePath": "/api",
+    "paths": {
+        "/api/vacancies/addVacancy": {
+            "post": {
+                "description": "При обращении, добавляется вакансия и возвращается код",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Добавление вакансии",
+                "parameters": [
+                    {
+                        "description": "Данные о вакансии",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/add_vacancy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Запрос выполнен успешно"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/vacancies/delete/{vacancy-id}": {
+            "delete": {
+                "description": "При обращении, добавляется вакансия и возвращается код",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Удаляется вакансия",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID вакансии",
+                        "name": "vacancy-id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Запрос выполнен успешно"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/vacancies/getAllVacancy": {
+            "get": {
+                "description": "При обращении, возвращается массив из вакансий",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Получение всех вакансий",
+                "responses": {
+                    "200": {
+                        "description": "Запрос выполнен успешно",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/vacancy"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/vacancies/getVacancyByEmployerID/{employer_id}": {
+            "get": {
+                "description": "При обращении, возвращается вакансия",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Получение вакансии по VacancyID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID работодателя",
+                        "name": "employer_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запрос выполнен успешно",
+                        "schema": {
+                            "$ref": "#/definitions/vacancy"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/vacancies/getVacancyByVacancyID/{id}": {
+            "get": {
+                "description": "При обращении, возвращается вакансия",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Получение вакансии по VacancyID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID вакансии",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запрос выполнен успешно",
+                        "schema": {
+                            "$ref": "#/definitions/vacancy"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "add_vacancy": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "employer_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "vacancy_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "vacancy": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "employer_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                },
+                "vacancy_id": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

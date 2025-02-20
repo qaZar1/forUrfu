@@ -1,0 +1,227 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "%README_FILE%",
+        "title": "Authentication API",
+        "contact": {},
+        "version": "2.0"
+    },
+    "host": "localhost:8003",
+    "basePath": "/api",
+    "paths": {
+        "/api/responses/addResponse": {
+            "post": {
+                "description": "При обращении, добавляется отклик в БД по телу запрсоа",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Добавление отклика в БД",
+                "parameters": [
+                    {
+                        "description": "Тело запроса",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запрос выполнен успешно"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/responses/edit/{response_id}": {
+            "put": {
+                "description": "При обращении, возвращается обновленный отклик",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Изменение отклика",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID отклика",
+                        "name": "response_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Запрос выполнен успешно"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/responses/getResponseByResponseID/{response_id}": {
+            "get": {
+                "description": "При обращении, возвращаются все ответы, которые есть у id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Получение ответов по id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID отклика",
+                        "name": "response_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запрос выполнен успешно",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/responses/getResponsesByEmployersID/{id}": {
+            "get": {
+                "description": "При обращении, возвращаются все ответы, которые есть у employers id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Получение ответов по employers id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID работодателя",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запрос выполнен успешно",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/responses/getResponsesByUsername/{username}": {
+            "get": {
+                "description": "При обращении, возвращаются все ответы, которые есть у username",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Получение ответов по username",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID пользователя",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запрос выполнен успешно",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "response": {
+            "type": "object",
+            "properties": {
+                "employer_id": {
+                    "type": "integer"
+                },
+                "response_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "vacancy_id": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

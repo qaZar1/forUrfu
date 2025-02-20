@@ -1,0 +1,150 @@
+basePath: /api
+definitions:
+  response:
+    properties:
+      employer_id:
+        type: integer
+      response_id:
+        type: integer
+      status:
+        type: string
+      username:
+        type: string
+      vacancy_id:
+        type: integer
+    type: object
+host: localhost:8003
+info:
+  contact: {}
+  description: '%README_FILE%'
+  title: Authentication API
+  version: "3.0"
+paths:
+  /api/responses/addResponse:
+    post:
+      description: При обращении, добавляется отклик в БД по телу запрсоа
+      parameters:
+      - description: Тело запроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/response'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Добавление отклика в БД
+      tags:
+      - APIs
+  /api/responses/edit/{response_id}:
+    put:
+      description: При обращении, возвращается обновленный отклик
+      parameters:
+      - description: ID отклика
+        in: path
+        name: response_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Запрос выполнен успешно
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Изменение отклика
+      tags:
+      - APIs
+  /api/responses/getResponseByResponseID/{response_id}:
+    get:
+      description: При обращении, возвращаются все ответы, которые есть у id
+      parameters:
+      - description: ID отклика
+        in: path
+        name: response_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            $ref: '#/definitions/response'
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение ответов по id
+      tags:
+      - APIs
+  /api/responses/getResponsesByEmployersID/{id}:
+    get:
+      description: При обращении, возвращаются все ответы, которые есть у employers
+        id
+      parameters:
+      - description: ID работодателя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            items:
+              $ref: '#/definitions/response'
+            type: array
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение ответов по employers id
+      tags:
+      - APIs
+  /api/responses/getResponsesByUsername/{username}:
+    get:
+      description: При обращении, возвращаются все ответы, которые есть у username
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            items:
+              $ref: '#/definitions/response'
+            type: array
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение ответов по username
+      tags:
+      - APIs
+swagger: "2.0"

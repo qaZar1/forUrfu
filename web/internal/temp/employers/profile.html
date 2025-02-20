@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" type="text/css" href="/static/profile.css">
+</head>
+<body>
+    <!-- Хедер с названием сайта и кнопками -->
+    <div class="header">
+        <h1 onclick="window.location.href='/employers'">HHforURFU</h1>
+        <nav>
+            <button onclick="window.location.href='/home'">Сайт для соискателей</button>
+            <button onclick="window.location.href='/employers/responses'">Отклики</button>
+            <button onclick="window.location.href='/employers/vacancies'">Мои Вакансии</button>
+            <button onclick="window.location.href='/employers/profile'">Профиль</button>
+        </nav>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <h2>Профиль пользователя</h2>
+
+        <!-- Поле для изменения резюме -->
+        <div class="data">
+            <div style="display: flex;">
+                <label style="padding-right: 10px;">Имя: </label>
+                <label>{{ .Employer.FirstName }}</label>
+            </div>
+            <div style="display: flex;">
+                <label style="padding-right: 10px;">Username: </label>
+                <label>{{ .Employer.Username }}</label>
+            </div>
+            <div style="display: flex;">
+                <label style="padding-right: 10px;">Компания: </label>
+                <label>{{ .Employer.Company }}</label>
+            </div>
+        </div>
+
+        <!-- Красная кнопка для выхода из аккаунта -->
+        <button class="logout-button" onclick="logout()">Выйти из аккаунта</button>
+    </div>
+    <script>
+        function logout() {
+            const cookies = document.cookie.split("; ");
+            // Устанавливаем истекший срок для каждого cookie
+            cookies.forEach(cookie => {
+                const [name] = cookie.split("=");
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            });
+
+            // Перенаправление на серверный маршрут выхода
+            window.location.href = '/loginEmployers';
+        }
+    </script>
+    <script type="module">
+        import { checkToken } from '/static/js/authEmployers.js'; // Путь к вашему файлу auth.js
+        document.addEventListener('DOMContentLoaded', () => {
+            checkToken(); // Проверка токена при загрузке страницы
+        });
+    </script>
+</body>
+</html>

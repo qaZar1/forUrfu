@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/register.css">
+    <title>Регистрация</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Регистрация работодателя</h2>
+        <form id="registerForm" method="POST" action="/submitEmployers">
+            <input type="text" placeholder="Имя" id="name" name="name" required>
+            <input type="text" placeholder="Никнейм" id="username" name="username" required>
+            <input type="password" placeholder="Пароль" id="password" name="password" required>
+            <input type="text" placeholder="Компания" id="company" name="company">
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+    <div id="error-message" style="display: none;">
+        <h1>Ошибка регистрации. Попробуйте еще раз.</h1>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Собираем данные из формы
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const name = document.getElementById('name').value;
+            const company = document.getElementById('company').value;
+
+
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('password', password);
+            formData.append('name', name); 
+            formData.append('company', company);
+
+            try {
+                const response = await fetch('/submitEmployers', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Если сервер вернул успешный ответ, перенаправляем на страницу входа
+                    window.location.href = '/loginEmployers';
+                } else {
+                    // Если произошла ошибка, показываем сообщение
+                    document.getElementById('error-message').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Ошибка отправки данных:', error);
+                document.getElementById('error-message').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

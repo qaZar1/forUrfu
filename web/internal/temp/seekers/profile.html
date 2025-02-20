@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" type="text/css" href="/static/profile.css">
+</head>
+<body>
+    <!-- Хедер с названием сайта и кнопками -->
+    <div class="header">
+        <h1 onclick="window.location.href='/employers'">HHforURFU</h1>
+        <nav>
+            <button onclick="window.location.href='employers'">Сайт для работодателей</button>
+            <button onclick="window.location.href='/vacancies'">Вакансии</button>
+            <button onclick="window.location.href='/responses'">Мои отклики</button>
+            <button onclick="window.location.href='/profile'">Профиль</button>
+        </nav>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <h2>Профиль пользователя</h2>
+
+        <!-- Поле для изменения резюме -->
+        <div class="data">
+            <div style="display: flex;">
+                <label style="padding-right: 10px;">Имя: </label>
+                <label>{{ .Seeker.FirstName }}</label>
+            </div>
+            <div style="display: flex;">
+                <label style="padding-right: 10px;">Username: </label>
+                <label>{{ .Seeker.Username }}</label>
+            </div>
+        </div>
+        <div class="resume-section">
+            <label for="resume">Ваше резюме:</label>
+            <div class="resume-input">
+                <textarea type="url" id="resume" placeholder="Введите ссылку на резюме">{{ .Seeker.Resume }}</textarea>
+            </div>
+            <button class="save-button" onclick="saveResume()">Сохранить изменения</button>
+        </div>
+
+        <!-- Красная кнопка для выхода из аккаунта -->
+        <button class="logout-button" onclick="logout()">Выйти из аккаунта</button>
+    </div>
+    <script>
+        function saveResume() {
+            // Получаем данные из поля резюме
+            const resume = document.getElementById('resume').value;
+
+            const formData = new FormData();
+            formData.append('resume', resume);
+
+            // Отправляем данные на бэкенд с использованием fetch
+            fetch('/saveResume', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Резюме успешно сохранено!');
+                } else {
+                    alert('Ошибка при сохранении резюме');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Ошибка при соединении с сервером');
+            });
+        }
+
+        function logout() {
+            const cookies = document.cookie.split("; ");
+            // Устанавливаем истекший срок для каждого cookie
+            cookies.forEach(cookie => {
+                const [name] = cookie.split("=");
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            });
+
+            // Перенаправление на серверный маршрут выхода
+            window.location.href = '/login';
+        }
+    </script>
+    <script type="module">
+        import { checkToken } from '/static/js/auth.js'; // Путь к вашему файлу auth.js
+        document.addEventListener('DOMContentLoaded', () => {
+            checkToken(); // Проверка токена при загрузке страницы
+        });
+    </script>
+</body>
+</html>

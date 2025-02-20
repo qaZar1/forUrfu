@@ -1,0 +1,163 @@
+basePath: /api
+definitions:
+  add_vacancy:
+    properties:
+      company:
+        type: string
+      description:
+        type: string
+      employer_id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      vacancy_id:
+        type: integer
+    type: object
+  vacancy:
+    properties:
+      company:
+        type: string
+      description:
+        type: string
+      employer_id:
+        type: integer
+      status:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+      vacancy_id:
+        type: integer
+    type: object
+host: localhost:8002
+info:
+  contact: {}
+  description: '%README_FILE%'
+  title: Authentication API
+  version: "3.0"
+paths:
+  /api/vacancies/addVacancy:
+    post:
+      description: При обращении, добавляется вакансия и возвращается код
+      requestBody:
+        $ref: '#/definitions/add_vacancy'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Запрос выполнен успешно
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Добавление вакансии
+      tags:
+      - APIs
+  /api/vacancies/delete/{vacancy-id}:
+    delete:
+      description: При обращении, добавляется вакансия и возвращается код
+      parameters:
+      - description: ID вакансии
+        in: path
+        name: vacancy-id
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Запрос выполнен успешно
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Удаляется вакансия
+      tags:
+      - APIs
+  /api/vacancies/getAllVacancy:
+    get:
+      consumes:
+      - application/json
+      description: При обращении, возвращается массив из вакансий
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            items:
+              $ref: '#/definitions/vacancy'
+            schema:
+          type: array
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение всех вакансий
+      tags:
+      - APIs
+  /api/vacancies/getVacancyByEmployerID/{employer_id}:
+    get:
+      description: При обращении, возвращается вакансия
+      parameters:
+      - description: ID работодателя
+        in: path
+        name: employer_id
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            $ref: '#/definitions/vacancy'
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение вакансии по VacancyID
+      tags:
+      - APIs
+  /api/vacancies/getVacancyByVacancyID/{id}:
+    get:
+      description: При обращении, возвращается вакансия
+      parameters:
+      - description: ID вакансии
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            $ref: '#/definitions/vacancy'
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение вакансии по VacancyID
+      tags:
+      - APIs
+swagger: "2.0"
