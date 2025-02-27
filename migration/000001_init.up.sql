@@ -8,6 +8,16 @@ CREATE TABLE IF NOT EXISTS main.seekers (
     resume          TEXT        NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS main.ratings (
+    rating_id      SERIAL PRIMARY KEY,
+    from_user      VARCHAR(32) NOT NULL,
+    to_user        VARCHAR(32) NOT NULL,
+    rating         INT CHECK (rating >= 1 AND rating <= 5),
+    CONSTRAINT fk_from_user FOREIGN KEY (from_user) REFERENCES main.seekers (username) ON DELETE CASCADE,
+    CONSTRAINT fk_to_user FOREIGN KEY (to_user) REFERENCES main.employers (username) ON DELETE CASCADE,
+    CONSTRAINT unique_rating UNIQUE (from_user, to_user)
+);
+
 CREATE TABLE IF NOT EXISTS main.employers (
     employer_id     SERIAL      NOT NULL UNIQUE,
     username        VARCHAR(32) NOT NULL UNIQUE,

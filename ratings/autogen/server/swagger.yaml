@@ -1,0 +1,68 @@
+basePath: /api
+definitions:
+  rating:
+    properties:
+      from_user:
+        type: string
+      rating:
+        type: number
+      rating_id:
+        type: integer
+      to_user:
+        type: string
+    type: object
+host: localhost:8006
+info:
+  contact: {}
+  description: '%README_FILE%'
+  title: Authentication API
+  version: "3.0"
+paths:
+  /api/ratings/{username}:
+    get:
+      consumes:
+      - application/json
+      description: При обращении, выдает средний рейтинг пользователя по его username
+      parameters:
+      - description: Username пользователя
+        in: path
+        name: username
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Запрос выполнен успешно
+          schema:
+            $ref: '#/definitions/rating'
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Получение среднего значения рейтинга пользователя
+      tags:
+      - APIs
+  /api/ratings/addRating:
+    post:
+      description: При обращении, добавляется рейтинг и возвращается код
+      requestBody:
+        $ref: '#/definitions/rating'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Запрос выполнен успешно
+        "400":
+          description: Ошибка валидации данных
+        "401":
+          description: Ошибка авторизации
+        "500":
+          description: Произошла внутренняя ошибка сервера
+      summary: Добавление рейтинга
+      tags:
+      - APIs
+swagger: "2.0"

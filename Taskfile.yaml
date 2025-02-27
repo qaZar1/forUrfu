@@ -13,6 +13,8 @@ includes:
     taskfile: vacancies/Taskfile.vacancies.yaml
   websocket:
     taskfile: websocket/Taskfile.message.yaml
+  ratings:
+    taskfile: ratings/Taskfile.ratings.yaml
 
 tasks:
   default:
