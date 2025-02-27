@@ -1,0 +1,110 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "%README_FILE%",
+        "title": "Authentication API",
+        "contact": {},
+        "version": "3.0"
+    },
+    "host": "localhost:8006",
+    "basePath": "/api",
+    "paths": {
+        "/api/ratings/addRating": {
+            "post": {
+                "description": "При обращении, добавляется рейтинг и возвращается код",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Добавление рейтинга",
+                "parameters": [
+                    {
+                        "description": "Данные о рейтинге",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/rating"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Запрос выполнен успешно"
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/api/ratings/{username}": {
+            "get": {
+                "description": "При обращении, выдает средний рейтинг пользователя по его username",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "APIs"
+                ],
+                "summary": "Получение среднего значения рейтинга пользователя",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username пользователя",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Запрос выполнен успешно",
+                        "schema": {
+                            "$ref": "#/definitions/rating"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка валидации данных"
+                    },
+                    "401": {
+                        "description": "Ошибка авторизации"
+                    },
+                    "500": {
+                        "description": "Произошла внутренняя ошибка сервера"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "rating": {
+            "type": "object",
+            "properties": {
+                "from_user": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "rating_id": {
+                    "type": "integer"
+                },
+                "to_user": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
