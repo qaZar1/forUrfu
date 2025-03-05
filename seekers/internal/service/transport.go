@@ -8,9 +8,9 @@ import (
 	validator "github.com/go-playground/validator/v10"
 	"github.com/jmoiron/sqlx"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/qaZar1/HHforURFU/seekers/autogen/server"
-	"github.com/qaZar1/HHforURFU/seekers/internal/infrastructure"
-	"github.com/qaZar1/HHforURFU/seekers/internal/models"
+	"github.com/qaZar1/forUrfu/seekers/autogen/server"
+	"github.com/qaZar1/forUrfu/seekers/internal/infrastructure"
+	"github.com/qaZar1/forUrfu/seekers/internal/models"
 	_ "github.com/swaggo/swag"
 )
 
@@ -162,6 +162,11 @@ func (transport *Transport) PutApiUpdateUsername(w http.ResponseWriter, r *http.
 	var seeker models.Seeker
 	if err := jsoniter.Unmarshal(body, &seeker); err != nil {
 		utils.WriteString(w, http.StatusInternalServerError, err, "Can not unmarshal body")
+		return
+	}
+
+	if err := transport.validate.Struct(seeker); err != nil {
+		utils.WriteString(w, http.StatusBadRequest, err, "invalid request")
 		return
 	}
 

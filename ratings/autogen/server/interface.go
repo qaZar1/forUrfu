@@ -13,10 +13,10 @@ import (
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
-	// Добавление рейтинга
+	// Добавление отклика в БД
 	// (POST /api/ratings/addRating)
 	PostApiRatingsAddRating(w http.ResponseWriter, r *http.Request)
-	// Получение среднего значения рейтинга пользователя
+	// Получение ответов по username
 	// (GET /api/ratings/{username})
 	GetApiRatingsUsername(w http.ResponseWriter, r *http.Request, username string)
 }
@@ -25,13 +25,13 @@ type ServerInterface interface {
 
 type Unimplemented struct{}
 
-// Добавление рейтинга
+// Добавление отклика в БД
 // (POST /api/ratings/addRating)
 func (_ Unimplemented) PostApiRatingsAddRating(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Получение среднего значения рейтинга пользователя
+// Получение ответов по username
 // (GET /api/ratings/{username})
 func (_ Unimplemented) GetApiRatingsUsername(w http.ResponseWriter, r *http.Request, username string) {
 	w.WriteHeader(http.StatusNotImplemented)

@@ -8,6 +8,7 @@ type Vacancy struct {
 	Status      string   `json:"status"`
 	EmployerID  int64    `json:"employer_id"`
 	Tags        []string `json:"tags"`
+	Rating      float64  `json:"rating"`
 }
 
 type AddVacancy struct {

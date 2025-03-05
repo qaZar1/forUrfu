@@ -1,0 +1,21 @@
+version: 3
+
+tasks:
+  go_modules:
+    desc: Инициализация и обновление go-модулей в верхнеуровневых папках
+    vars:
+      ROOT_DIR: .
+    cmds:
+      - |
+        for dir in $(find {{.ROOT_DIR}} -maxdepth 1 -mindepth 1 -type d); do
+          echo "Обрабатываем папку: $dir"
+          cd "$dir"
+          if [ ! -f "go.mod" ]; then
+            go mod init "$(basename "$dir")"
+          fi
+          go mod tidy
+          go mod vendor
+          cd ..
+        done
+
+

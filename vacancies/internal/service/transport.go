@@ -9,8 +9,8 @@ import (
 	"github.com/Impisigmatus/service_core/utils"
 	"github.com/jmoiron/sqlx"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/qaZar1/HHforURFU/vacancies/autogen/server"
-	"github.com/qaZar1/HHforURFU/vacancies/internal/models"
+	"github.com/qaZar1/forUrfu/vacancies/autogen/server"
+	"github.com/qaZar1/forUrfu/vacancies/internal/models"
 	_ "github.com/swaggo/swag"
 )
 

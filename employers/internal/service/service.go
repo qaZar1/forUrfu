@@ -3,8 +3,8 @@ package service
 
 import (
 	"github.com/jmoiron/sqlx"
-	"github.com/qaZar1/HHforURFU/employers/internal/database"
-	"github.com/qaZar1/HHforURFU/employers/internal/models"
+	"github.com/qaZar1/forUrfu/employers/internal/database"
+	"github.com/qaZar1/forUrfu/employers/internal/models"
 )
 
 type Service struct {

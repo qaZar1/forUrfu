@@ -1,0 +1,187 @@
+
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Добавить вакансию</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/home">forUrfu</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/employers/vacancies">Мои вакансии</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/employers/responses">Отклики</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/employers/profile">Профиль</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container mt-5">
+            <h2>Новая вакансия</h2>
+            <form id="vacancy-form">
+                <div class="mb-3">
+                    <label for="vacancy-title" class="form-label">Название вакансии</label>
+                    <input type="text" class="form-control" id="vacancy-title" name="vacancy-title" placeholder="Введите название вакансии">
+                </div>
+                <div class="mb-3">
+                    <label for="vacancy-description" class="form-label">Описание вакансии</label>
+                    <textarea class="form-control" id="vacancy-description" name="vacancy-description" placeholder="Введите описание вакансии"></textarea>
+                </div>
+                <h5>Фильтры</h5>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="full-time" name="schedule" value="Полный день">
+                        <label class="form-check-label d-block" for="full-time">Полный день</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="not-full-time" name="schedule" value="Частичная занятость">
+                        <label class="form-check-label d-block" for="not-full-time">Частичная занятость</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="internship" name="schedule" value="Временная работа">
+                        <label class="form-check-label d-block" for="time-work">Временная работа</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="internship" name="schedule" value="Стажировка">
+                        <label class="form-check-label d-block" for="internship">Стажировка</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="internship" name="schedule" value="От 4 часов в день">
+                        <label class="form-check-label d-block" for="from-four-hours">От 4 часов в день</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="internship" name="schedule" value="Удаленная работа">
+                        <label class="form-check-label d-block" for="from-home">Удаленная работа</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="internship" name="schedule" value="Гибкий график">
+                        <label class="form-check-label d-block" for="flexible-schedule">Гибкий график</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit-vacancy">Добавить вакансию</button>
+            </form>
+            <div id="message-box" class="alert d-none mt-3"></div>
+        </div>
+        <script type="module">
+            import { checkToken } from '/static/js/authEmployers.js';
+            document.addEventListener('DOMContentLoaded', () => {
+                checkToken();
+            });
+    
+            document.getElementById('submit-vacancy').addEventListener('click', async (event) => {
+                event.preventDefault(); 
+
+                // Получаем значения из полей
+                const title = document.getElementById('vacancy-title').value.trim();
+                const description = document.getElementById('vacancy-description').value.trim();
+
+                // Получаем отмеченные чекбоксы
+                const checkboxes = document.querySelectorAll('input[name="schedule"]:checked');
+                const tags = Array.from(checkboxes).map(checkbox => checkbox.value);
+
+                // Валидация: проверяем, что поля не пустые и есть хотя бы один чекбокс
+                if (title === "" && description === ""){
+                    showMessage("Поля не заполнены!", false);
+                    return;
+                }
+
+                if (title === ""){
+                    showMessage("Название вакансии не заполнено!", false);
+                    return;
+                }
+
+                if (description === ""){
+                    showMessage("Описание вакансии не заполнено!", false);
+                    return;
+                }
+
+                if (tags.length === 0) {
+                    showMessage("Выберите хотя бы один вариант фильтра!", false);
+                    return;
+                }
+                
+                // Получаем username из cookies
+                const cookies = document.cookie.split('; ');
+                const username_token = cookies.find(cookie => cookie.startsWith('username_employers='));
+
+                if (!username_token) {
+                    showMessage("Ошибка аутентификации. Войдите заново.", false);
+                    return;
+                }
+
+                const username = username_token.split('=')[1];
+
+                // Создаем объект данных для отправки
+                const vacancyData = {
+                    title: title,
+                    description: description,
+                    tags: tags,
+                    username: username
+                };
+
+                // Отправляем POST-запрос
+                try {
+                    const response = await fetch('/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(vacancyData)
+                    });
+
+                    if (response.ok) {
+                        showMessage('Вакансия успешно добавлена!', true);
+                        redirectWithCountdown("/employers/vacancies", 5);
+                    } else {
+                        showMessage('Ошибка при добавлении вакансии', false);
+                    }
+                } catch (error) {
+                    console.error('Ошибка отправки данных:', error);
+                    showMessage('Ошибка сети. Попробуйте позже.', false);
+                }
+            });
+
+            // Функция для отображения сообщений (ошибок или успеха)
+            function showMessage(message, isSuccess = false) {
+                const messageBox = document.getElementById("message-box");
+                messageBox.textContent = message;
+                
+                // Убираем все возможные классы
+                messageBox.classList.remove("d-none", "alert-danger", "alert-success");
+                
+                // Добавляем нужный класс
+                messageBox.classList.add(isSuccess ? "alert-success" : "alert-danger");
+
+                // Показываем сообщение
+                messageBox.classList.remove("d-none");
+            }
+
+            function redirectWithCountdown(url, seconds = 5) {
+                let timeLeft = Math.min(seconds, 5);
+
+                function updateMessage() {
+                    showMessage(`Вакансия успешно добавлена!\nВы будете автоматически перенаправлены через ${timeLeft} секунд...`, true);
+                    if (timeLeft <= 0) {
+                        window.location.href = url;
+                    } else {
+                        timeLeft--;
+                        setTimeout(updateMessage, 1000);
+                    }
+                }
+
+                updateMessage();
+            }
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+    </html>
+    

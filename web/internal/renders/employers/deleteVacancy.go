@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/qaZar1/HHforURFU/web/internal/api"
+	"github.com/qaZar1/forUrfu/web/internal/api"
 	"github.com/sirupsen/logrus"
 )
 

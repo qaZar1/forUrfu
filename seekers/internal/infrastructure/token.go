@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/qaZar1/HHforURFU/seekers/internal/models"
+	"github.com/qaZar1/forUrfu/seekers/internal/models"
 )
 
 func (infra *Infrastructure) GetClaims(username string) models.Claims {

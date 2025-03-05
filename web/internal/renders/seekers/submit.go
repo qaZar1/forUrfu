@@ -3,8 +3,8 @@ package renders
 import (
 	"net/http"
 
-	"github.com/qaZar1/HHforURFU/web/internal/api"
-	"github.com/qaZar1/HHforURFU/web/internal/models"
+	"github.com/qaZar1/forUrfu/web/internal/api"
+	"github.com/qaZar1/forUrfu/web/internal/models"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -35,9 +35,9 @@ func Submit(w http.ResponseWriter, r *http.Request) {
 
 	ok, err := api.NewApiSeekers().RegisterSeeker(seeker)
 	if err != nil || !ok {
-		http.Error(w, "Пользователь уже существует! Попробуйте другой username!", http.StatusConflict)
+		http.Error(w, "", http.StatusConflict)
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusNoContent)
 }

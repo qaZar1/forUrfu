@@ -16,8 +16,8 @@ import (
 	"github.com/Impisigmatus/service_core/postgres"
 	"github.com/go-chi/chi/v5"
 	"github.com/jmoiron/sqlx"
-	"github.com/qaZar1/HHforURFU/responses/autogen/server"
-	"github.com/qaZar1/HHforURFU/responses/internal/service"
+	"github.com/qaZar1/forUrfu/responses/autogen/server"
+	"github.com/qaZar1/forUrfu/responses/internal/service"
 	"github.com/sirupsen/logrus"
 	httpSwagger "github.com/swaggo/http-swagger"
 )

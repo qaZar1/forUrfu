@@ -21,8 +21,8 @@ tasks:
      - sed -i -e '/^ *parameters:/,/^[^ ]/{ /^ *type:/ s/type:/schema:\n          type:/; }' {{.DOCS}}/swagger.yaml
 
   generate:
-      desc: Генерация сваггера
-      vars:
-        DOCS: websocket/autogen/server
-      cmds:
-      - oapi-codegen --config=websocket/config/codegen.yml {{.DOCS}}/swagger.yaml
+    desc: Генерация сваггера
+    vars:
+      DOCS: websocket/autogen/server
+    cmds:
+    - oapi-codegen --config=websocket/config/codegen.yml {{.DOCS}}/swagger.yaml

@@ -11,7 +11,7 @@ definitions:
       to_user:
         type: string
     type: object
-host: localhost:8006
+host: localhost:8008
 info:
   contact: {}
   description: '%README_FILE%'
@@ -20,11 +20,9 @@ info:
 paths:
   /api/ratings/{username}:
     get:
-      consumes:
-      - application/json
-      description: При обращении, выдает средний рейтинг пользователя по его username
+      description: При обращении, возвращаются все ответы, которые есть у username
       parameters:
-      - description: Username пользователя
+      - description: ID пользователя
         in: path
         name: username
         required: true
@@ -36,25 +34,28 @@ paths:
         "200":
           description: Запрос выполнен успешно
           schema:
-            $ref: '#/definitions/rating'
+            items:
+              $ref: '#/definitions/rating'
+            schema:
+          type: array
         "400":
           description: Ошибка валидации данных
         "401":
           description: Ошибка авторизации
         "500":
           description: Произошла внутренняя ошибка сервера
-      summary: Получение среднего значения рейтинга пользователя
+      summary: Получение ответов по username
       tags:
       - APIs
   /api/ratings/addRating:
     post:
-      description: При обращении, добавляется рейтинг и возвращается код
+      description: При обращении, добавляется отклик в БД по телу запрсоа
       requestBody:
         $ref: '#/definitions/rating'
       produces:
       - application/json
       responses:
-        "204":
+        "200":
           description: Запрос выполнен успешно
         "400":
           description: Ошибка валидации данных
@@ -62,7 +63,7 @@ paths:
           description: Ошибка авторизации
         "500":
           description: Произошла внутренняя ошибка сервера
-      summary: Добавление рейтинга
+      summary: Добавление отклика в БД
       tags:
       - APIs
 swagger: "2.0"

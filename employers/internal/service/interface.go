@@ -1,7 +1,7 @@
 // internal/service/interface.go
 package service
 
-// import "github.com/qaZar1/HHforURFU/employers/autogen"
+// import "github.com/qaZar1/forUrfu/employers/autogen"
 
 // type ServiceInterface interface {
 // 	GetAllUsers() ([]autogen.Info, error)

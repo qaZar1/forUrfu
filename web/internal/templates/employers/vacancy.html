@@ -1,0 +1,84 @@
+
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Вакансия</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/home">forUrfu</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/employers/vacancies">Мои вакансии</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/employers/responses">Отклики</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/employers/profile">Профиль</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-5">
+            <div class="card p-4">
+                <h2>Вакансия: {{ .Vacancy.Title }}</h2>
+                <p><strong>Компания:</strong> {{ .Vacancy.Company }}</p>
+                <p><strong>Описание:</strong> {{ .Vacancy.Description }}</p>
+                <div class="mt-3">
+                    {{ range .Vacancy.Tags }}
+                        <span class="badge bg-primary">{{ . }}</span>
+                    {{ end }}
+                </div>
+                <button class="btn btn-danger mt-3" id="delete" method="DELETE" action="/deleteVacancy">Удалить</button>
+            </div>
+        </div>
+
+        <script type="module">
+            import { checkToken } from '/static/js/authEmployers.js';
+            document.addEventListener('DOMContentLoaded', () => {
+                checkToken();
+            });
+
+
+            document.getElementById('delete').addEventListener('click', async function(event) {
+                event.preventDefault();
+
+                const path = window.location.pathname;
+
+                // Регулярное выражение для извлечения ID из формата /response/id-{id}
+                const regex = /\/vacancy\/id-(\d+)/;
+
+                const match = path.match(regex);
+
+                const formData = new FormData();
+                formData.append('id', match[1]);
+
+                try {
+                    // Отправляем данные на сервер через Fetch API
+                    const response = await fetch('/deleteVacancy', {
+                        method: 'DELETE',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        window.location.href = "/employers/vacancies";
+                    } else {
+                        // Если произошла ошибка, показываем сообщение
+                        document.getElementById('error-message').style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Ошибка отправки данных:', error);
+                    document.getElementById('error-message').style.display = 'block';
+                }
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+    </html>
+    

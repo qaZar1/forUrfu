@@ -1,6 +1,6 @@
 package service
 
-import "github.com/qaZar1/HHforURFU/responses/internal/models"
+import "github.com/qaZar1/forUrfu/responses/internal/models"
 
 type ServiceInterface interface {
 	GetResponsesByUsername(username string) ([]models.Response, error)

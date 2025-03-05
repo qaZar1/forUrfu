@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/qaZar1/HHforURFU/web/internal/api"
-	"github.com/qaZar1/HHforURFU/web/internal/models"
+	"github.com/qaZar1/forUrfu/web/internal/api"
+	"github.com/qaZar1/forUrfu/web/internal/models"
 )
 
 type Vacancies struct {
@@ -15,7 +15,7 @@ type Vacancies struct {
 
 // Функция для рендеринга шаблона с вакансиями
 func renderVacancies(w http.ResponseWriter, templateName string, data Vacancies) {
-	tmpl, err := template.ParseFiles("internal/temp/" + templateName)
+	tmpl, err := template.ParseFiles("internal/templates/" + templateName)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -71,11 +71,42 @@ func RenderVacancies(w http.ResponseWriter, r *http.Request) {
 	category := r.URL.Query().Get("category")  // Фильтр по категории
 
 	// Получаем все вакансии через API
-	api := api.NewApiVacancies()
-	vacancies, _ := api.GetAllVacancies()
+	apiVacancies := api.NewApiVacancies()
+	apiEmp := api.NewApiEmployers()
+	apiRat := api.NewApiRatings()
+	vacancies, _ := apiVacancies.GetAllVacancies()
+
+	var newVacancies []models.Vacancy
+	for _, vacancy := range vacancies {
+		// Получаем данные о работодателе
+		employer, err := apiEmp.CheckEmployer(vacancy.EmployerID)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
+		rating, err := apiRat.CheckRating(employer.Username)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
+		if rating == (models.Rating{}) {
+			rating.Rating = 0
+		}
+
+		newVacancies = append(newVacancies, models.Vacancy{
+			ID:          vacancy.ID,
+			Company:     vacancy.Company,
+			Title:       vacancy.Title,
+			Description: vacancy.Description,
+			Status:      vacancy.Status,
+			EmployerID:  vacancy.EmployerID,
+			Tags:        vacancy.Tags,
+			Rating:      rating.Rating,
+		})
+	}
 
 	// Фильтруем вакансии на основе поискового запроса и категории
-	filteredVacancies := filterVacancies(vacancies, searchQuery, category)
+	filteredVacancies := filterVacancies(newVacancies, searchQuery, category)
 
 	// Подготавливаем данные для шаблона
 	data := Vacancies{

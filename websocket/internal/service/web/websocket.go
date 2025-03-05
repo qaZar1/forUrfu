@@ -7,8 +7,8 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/jmoiron/sqlx"
-	"github.com/qaZar1/HHforURFU/websocket/internal/database"
-	"github.com/qaZar1/HHforURFU/websocket/internal/models"
+	"github.com/qaZar1/forUrfu/websocket/internal/database"
+	"github.com/qaZar1/forUrfu/websocket/internal/models"
 )
 
 // Структура для хранения информации о WebSocket и базе данных

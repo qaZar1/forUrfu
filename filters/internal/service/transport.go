@@ -7,8 +7,8 @@ import (
 
 	"github.com/Impisigmatus/service_core/utils"
 	"github.com/jmoiron/sqlx"
-	"github.com/qaZar1/HHforURFU/filters/autogen/server"
-	"github.com/qaZar1/HHforURFU/filters/internal/models"
+	"github.com/qaZar1/forUrfu/filters/autogen/server"
+	"github.com/qaZar1/forUrfu/filters/internal/models"
 
 	jsoniter "github.com/json-iterator/go"
 )

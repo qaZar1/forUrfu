@@ -8,9 +8,9 @@ import (
 	validator "github.com/go-playground/validator/v10"
 	"github.com/jmoiron/sqlx"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/qaZar1/HHforURFU/employers/autogen/server"
-	"github.com/qaZar1/HHforURFU/employers/internal/infrastructure"
-	"github.com/qaZar1/HHforURFU/employers/internal/models"
+	"github.com/qaZar1/forUrfu/employers/autogen/server"
+	"github.com/qaZar1/forUrfu/employers/internal/infrastructure"
+	"github.com/qaZar1/forUrfu/employers/internal/models"
 )
 
 type Transport struct {

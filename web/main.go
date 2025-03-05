@@ -5,8 +5,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	employers "github.com/qaZar1/HHforURFU/web/internal/renders/employers"
-	seekers "github.com/qaZar1/HHforURFU/web/internal/renders/seekers"
+	employers "github.com/qaZar1/forUrfu/web/internal/renders/employers"
+	seekers "github.com/qaZar1/forUrfu/web/internal/renders/seekers"
 )
 
 func main() {
@@ -14,7 +14,6 @@ func main() {
 
 	r.Use(middleware.Logger)
 	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("./internal/static/"))))
-	r.Get("/home", seekers.RenderSeekers)
 	r.Get("/vacancies", seekers.RenderVacancies)
 	r.Get("/vacancy/id-{id}", seekers.RenderVacancy)
 	r.Get("/login", seekers.RenderLogIn)
@@ -26,10 +25,10 @@ func main() {
 	r.HandleFunc("/submitToLogin", seekers.SubmitToLogin)
 	r.HandleFunc("/acceptVacancy", seekers.Accept)
 	r.HandleFunc("/saveResume", seekers.SaveUpdate)
+	r.HandleFunc("/rate-company", seekers.RateCompanyHandler)
 
 	r.Get("/registerEmployers", employers.RenderRegisterFor)
 	r.Get("/loginEmployers", employers.RenderLogInEmployers)
-	r.Get("/employers", employers.RenderSeekers)
 	r.Get("/employers/vacancies", employers.RenderVacancies)
 	r.Get("/employers/vacancy/id-{id}", employers.RenderVacancy)
 	r.Get("/employers/responses", employers.RenderResp)
@@ -42,6 +41,7 @@ func main() {
 	r.HandleFunc("/refuseResponse", employers.RefuseResponse)
 	r.HandleFunc("/add", employers.AddVacancyInList)
 	r.HandleFunc("/deleteVacancy", employers.DeleteVacancy)
+	r.HandleFunc("/rate-seeker", employers.RateSeekerHandler)
 
 	http.ListenAndServe(":3000", r)
 }

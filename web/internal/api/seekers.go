@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-resty/resty/v2"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/qaZar1/HHforURFU/web/internal/models"
+	"github.com/qaZar1/forUrfu/web/internal/models"
 )
 
 type APISeekers struct {
@@ -15,7 +15,7 @@ type APISeekers struct {
 
 func NewApiSeekers() *APISeekers {
 	return &APISeekers{
-		client: resty.New().SetBaseURL("http://localhost:8005/api").SetTimeout(1*time.Minute).SetBasicAuth("dev", "test"),
+		client: resty.New().SetBaseURL("http://localhost:8005/api").SetTimeout(1*time.Minute).SetBasicAuth("dev", "test").SetDisableWarn(true),
 	}
 }
 

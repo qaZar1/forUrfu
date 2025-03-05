@@ -6,7 +6,7 @@ import (
 )
 
 func renderRegister(w http.ResponseWriter, templateName string) {
-	tmpl, err := template.ParseFiles("internal/temp/" + templateName)
+	tmpl, err := template.ParseFiles("internal/templates/" + templateName)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -19,18 +19,5 @@ func renderRegister(w http.ResponseWriter, templateName string) {
 }
 
 func RenderRegisterFor(w http.ResponseWriter, r *http.Request) {
-	// id_str := chi.URLParam(r, "id")
-	// id, err := strconv.ParseInt(id_str, 10, 64)
-	// if err != nil {
-	// 	http.Error(w, "Invalid ID", http.StatusBadRequest)
-	// 	return
-	// }
-
-	// api := api.NewApiVacancies()
-	// vacancy, _ := api.GetVacancyByVacancyID(id)
-
-	// data := Vacancy{
-	// 	Vacancy: vacancy,
-	// }
 	renderRegister(w, "employers/register_for_employers.html")
 }

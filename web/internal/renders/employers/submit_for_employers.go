@@ -3,8 +3,8 @@ package renders
 import (
 	"net/http"
 
-	"github.com/qaZar1/HHforURFU/web/internal/api"
-	"github.com/qaZar1/HHforURFU/web/internal/models"
+	"github.com/qaZar1/forUrfu/web/internal/api"
+	"github.com/qaZar1/forUrfu/web/internal/models"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 )
