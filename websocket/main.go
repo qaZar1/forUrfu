@@ -14,7 +14,7 @@ import (
 	"github.com/Impisigmatus/service_core/postgres"
 	"github.com/go-chi/chi/v5"
 	"github.com/jmoiron/sqlx"
-	"github.com/qaZar1/HHforURFU/websocket/internal/service/web"
+	"github.com/qaZar1/forUrfu/websocket/internal/service/web"
 	"github.com/sirupsen/logrus"
 )
 

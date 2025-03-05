@@ -5,7 +5,7 @@ import (
 
 	_ "github.com/Impisigmatus/service_core/postgres"
 	"github.com/jmoiron/sqlx"
-	"github.com/qaZar1/HHforURFU/websocket/internal/models"
+	"github.com/qaZar1/forUrfu/websocket/internal/models"
 )
 
 type Database struct {

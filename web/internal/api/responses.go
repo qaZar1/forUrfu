@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-resty/resty/v2"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/qaZar1/HHforURFU/web/internal/models"
+	"github.com/qaZar1/forUrfu/web/internal/models"
 )
 
 type APIResponses struct {
@@ -16,7 +16,7 @@ type APIResponses struct {
 
 func NewApiResponses() *APIResponses {
 	return &APIResponses{
-		client: resty.New().SetBaseURL("http://localhost:8003/api").SetTimeout(1*time.Minute).SetBasicAuth("dev", "test"),
+		client: resty.New().SetBaseURL("http://localhost:8003/api").SetTimeout(1*time.Minute).SetBasicAuth("dev", "test").SetDisableWarn(true),
 	}
 }
 

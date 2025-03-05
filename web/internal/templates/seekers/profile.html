@@ -1,0 +1,89 @@
+
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Профиль</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/home">forUrfu</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/vacancies">Вакансии</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/responses">Мои отклики</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/profile">Профиль</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-5">
+            <h2>Профиль пользователя</h2>
+            <div class="card p-4">
+                <p><strong>Имя:</strong> {{ .Seeker.FirstName }}</p>
+                <p><strong>Username:</strong> {{ .Seeker.Username }}</p>
+                {{ if lt .Rating.Rating 0.1 }}
+                    <p class="text-muted">Пока никто вас не оценил</p>
+                {{ else }}
+                    <div class="rating mt-2" data-rating="{{ .Rating.Rating }}">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                    <p>( {{ .Rating.Rating }} )</p>
+                {{ end }}
+                <div class="mb-3">
+                    <label for="resume" class="form-label">Ссылка на ваше резюме:</label>
+                    <textarea class="form-control" id="resume" placeholder="Введите ссылку на резюме">{{ .Seeker.Resume }}</textarea>
+                    <small class="text-muted">Введите корректную ссылку, начинающуюся с http:// или https://</small>
+                </div>
+                <button class="btn btn-primary" onclick="saveResume()">Сохранить изменения</button>
+                <button class="btn btn-danger mt-2" onclick="logout()">Выйти из аккаунта</button>
+            </div>
+            <div id="message-box" class="alert d-none mt-3"></div>
+        </div>
+
+        <style>
+            .rating {
+            font-size: 1.2rem;
+            color: #ccc;
+            position: relative;
+        }
+        .star {
+            cursor: pointer;
+            color: #ddd;
+            position: relative;
+        }
+        .star.filled {
+            color: gold;
+        }
+        .star.half::before {
+            content: '★';
+            position: absolute;
+            left: 0;
+            width: 50%;
+            overflow: hidden;
+            color: gold;
+        }
+    </style>
+        <script src="static/js/profile.js" type="module"></script>
+        <script type="module">
+            import { checkToken } from '/static/js/auth.js';
+            document.addEventListener('DOMContentLoaded', () => {
+                checkToken();
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+    </html>
+    

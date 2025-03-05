@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	jsoniter "github.com/json-iterator/go"
-	"github.com/qaZar1/HHforURFU/web/internal/api"
+	"github.com/qaZar1/forUrfu/web/internal/api"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
 )

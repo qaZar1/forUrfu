@@ -5,5 +5,5 @@ type Seeker struct {
 	Username     string `json:"username" db:"username"`
 	FirstName    string `json:"f_name" db:"f_name"`
 	PasswordHash string `json:"password_hash" db:"password_hash"`
-	Resume       string `json:"resume" db:"resume"`
+	Resume       string `json:"resume" db:"resume" validate:"url"`
 } // @name seeker

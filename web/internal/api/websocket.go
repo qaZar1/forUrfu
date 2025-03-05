@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-resty/resty/v2"
-	"github.com/qaZar1/HHforURFU/web/internal/models"
+	"github.com/qaZar1/forUrfu/web/internal/models"
 )
 
 type APIWebSocket struct {

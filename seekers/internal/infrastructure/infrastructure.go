@@ -3,7 +3,7 @@ package infrastructure
 import (
 	"os"
 
-	"github.com/qaZar1/HHforURFU/seekers/internal/models"
+	"github.com/qaZar1/forUrfu/seekers/internal/models"
 )
 
 type Infrastructure struct {

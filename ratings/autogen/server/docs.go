@@ -17,17 +17,17 @@ const docTemplate = `{
     "paths": {
         "/api/ratings/addRating": {
             "post": {
-                "description": "При обращении, добавляется рейтинг и возвращается код",
+                "description": "При обращении, добавляется отклик в БД по телу запрсоа",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "APIs"
                 ],
-                "summary": "Добавление рейтинга",
+                "summary": "Добавление отклика в БД",
                 "parameters": [
                     {
-                        "description": "Данные о рейтинге",
+                        "description": "Тело запроса",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -37,7 +37,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "Запрос выполнен успешно"
                     },
                     "400": {
@@ -54,21 +54,18 @@ const docTemplate = `{
         },
         "/api/ratings/{username}": {
             "get": {
-                "description": "При обращении, выдает средний рейтинг пользователя по его username",
-                "consumes": [
-                    "application/json"
-                ],
+                "description": "При обращении, возвращаются все ответы, которые есть у username",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "APIs"
                 ],
-                "summary": "Получение среднего значения рейтинга пользователя",
+                "summary": "Получение ответов по username",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Username пользователя",
+                        "description": "ID пользователя",
                         "name": "username",
                         "in": "path",
                         "required": true
@@ -78,7 +75,10 @@ const docTemplate = `{
                     "200": {
                         "description": "Запрос выполнен успешно",
                         "schema": {
-                            "$ref": "#/definitions/rating"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/rating"
+                            }
                         }
                     },
                     "400": {
@@ -118,7 +118,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "3.0",
-	Host:             "localhost:8006",
+	Host:             "localhost:8008",
 	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Authentication API",

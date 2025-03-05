@@ -37,7 +37,7 @@ func init() {
 // @title Authentication API
 // @version 3.0
 // @description %README_FILE%
-// @host localhost:8006
+// @host localhost:8008
 // @BasePath /api
 func main() {
 	const (

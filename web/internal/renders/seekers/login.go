@@ -8,7 +8,7 @@ import (
 type StartPage struct{}
 
 func renderLogIn(w http.ResponseWriter, templateName string) {
-	tmpl, err := template.ParseFiles("internal/temp/" + templateName)
+	tmpl, err := template.ParseFiles("internal/templates/" + templateName)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

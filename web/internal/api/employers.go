@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-resty/resty/v2"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/qaZar1/HHforURFU/web/internal/models"
+	"github.com/qaZar1/forUrfu/web/internal/models"
 )
 
 type APIEmployers struct {
@@ -15,7 +15,7 @@ type APIEmployers struct {
 
 func NewApiEmployers() *APIEmployers {
 	return &APIEmployers{
-		client: resty.New().SetBaseURL("http://localhost:8001/api").SetTimeout(1*time.Minute).SetBasicAuth("dev", "test"),
+		client: resty.New().SetBaseURL("http://localhost:8001/api").SetTimeout(1*time.Minute).SetBasicAuth("dev", "test").SetDisableWarn(true),
 	}
 }
 
@@ -44,6 +44,10 @@ func (api *APIEmployers) CheckEmployer(employerID int64) (models.Employer, error
 	}
 
 	employer := models.Employer{}
+	if resp.Body() == nil {
+		return models.Employer{}, nil
+	}
+
 	if err := jsoniter.Unmarshal(resp.Body(), &employer); err != nil {
 		return models.Employer{}, err
 	}

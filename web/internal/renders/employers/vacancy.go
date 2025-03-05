@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/qaZar1/HHforURFU/web/internal/api"
-	"github.com/qaZar1/HHforURFU/web/internal/models"
+	"github.com/qaZar1/forUrfu/web/internal/api"
+	"github.com/qaZar1/forUrfu/web/internal/models"
 )
 
 type Vacancy struct {
@@ -15,7 +15,7 @@ type Vacancy struct {
 }
 
 func renderResp(w http.ResponseWriter, templateName string, data Vacancy) {
-	tmpl, err := template.ParseFiles("internal/temp/" + templateName)
+	tmpl, err := template.ParseFiles("internal/templates/" + templateName)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
